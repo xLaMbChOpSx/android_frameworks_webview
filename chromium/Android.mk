@@ -29,22 +29,26 @@ LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
 LOCAL_MODULE_CLASS := APPS
 LOCAL_CERTIFICATE := PRESIGNED
 
-ifeq ($(TARGET_IS_64_BIT),true)
+ifeq ($(TARGET_ARCH),arm64)
 TARGET_ARCH_ABI := arm64-v8a
 TARGET_LIB_DIR := lib64
-TARGET_LIB_ARM_DIR := arm64
-else
+TARGET_LIB_ARCH_DIR := arm64
+else ifeq ($(TARGET_ARCH),arm)
 TARGET_ARCH_ABI := armeabi-v7a
 TARGET_LIB_DIR := lib
-TARGET_LIB_ARM_DIR := arm
+TARGET_LIB_ARCH_DIR := arm
+else ifeq ($(TARGET_ARCH),x86)
+TARGET_ARCH_ABI := x86
+TARGET_LIB_DIR := lib
+TARGET_LIB_ARCH_DIR := x86
 endif
 
 $(shell mkdir -p $(TARGET_OUT_SHARED_LIBRARIES))
 $(shell cp $(LOCAL_PATH)/prebuilt/$(TARGET_ARCH_ABI)/libwebviewchromium.so $(TARGET_OUT_SHARED_LIBRARIES))
 
-$(shell mkdir -p $(TARGET_OUT_APPS)/webview/lib/$(TARGET_LIB_ARM_DIR))
-$(shell ln -sf ../../../../$(TARGET_LIB_DIR)/libwebviewchromium.so $(TARGET_OUT_APPS)/webview/lib/$(TARGET_LIB_ARM_DIR)/libwebviewchromium.so)
-ALL_DEFAULT_INSTALLED_MODULES += $(TARGET_OUT_APPS)/webview/lib/$(TARGET_LIB_ARM_DIR)/libwebviewchromium.so
+$(shell mkdir -p $(TARGET_OUT_APPS)/webview/lib/$(TARGET_LIB_ARCH_DIR))
+$(shell ln -sf ../../../../$(TARGET_LIB_DIR)/libwebviewchromium.so $(TARGET_OUT_APPS)/webview/lib/$(TARGET_LIB_ARCH_DIR)/libwebviewchromium.so)
+ALL_DEFAULT_INSTALLED_MODULES += $(TARGET_OUT_APPS)/webview/lib/$(TARGET_LIB_ARCH_DIR)/libwebviewchromium.so
 
 include $(BUILD_PREBUILT)
 
