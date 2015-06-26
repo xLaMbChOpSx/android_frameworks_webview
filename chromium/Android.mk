@@ -23,7 +23,6 @@ CHROMIUM_PATH := external/chromium_org
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := webview
-LOCAL_SRC_FILES := prebuilt/webview.apk
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
 LOCAL_MODULE_CLASS := APPS
@@ -42,6 +41,8 @@ TARGET_ARCH_ABI := x86
 TARGET_LIB_DIR := lib
 TARGET_LIB_ARCH_DIR := x86
 endif
+
+LOCAL_SRC_FILES := prebuilt/$(TARGET_ARCH_ABI)/webview.apk
 
 $(shell mkdir -p $(TARGET_OUT_SHARED_LIBRARIES))
 $(shell cp $(LOCAL_PATH)/prebuilt/$(TARGET_ARCH_ABI)/libwebviewchromium.so $(TARGET_OUT_SHARED_LIBRARIES))
